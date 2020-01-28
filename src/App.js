@@ -5,7 +5,9 @@ import {BrowserRouter as Router,
 } from "react-router-dom";
 import WelcomePage from "./components/WelcomePage.js"
 import AuthController from "./components/AuthController.js"
-import logo from "./logo.jpg"
+import Logout from "./components/Logout.js"
+import logo from "./logo.jpg";
+import { connect } from 'react-redux';
 
 class App extends Component {
     render() {
@@ -16,10 +18,7 @@ class App extends Component {
                         <div className="container">
                             <div className="header__inner">
                                 <img src={logo} alt="" className="header__logo logo" />
-                                <section className="header__user user">
-                                    <img src='' className="user__ava" alt="" />
-                                    <span className="user__name"></span>
-                                </section>
+                                {this.props.state.auth.login && <Logout />}
                             </div>
                         </div>
                     </header> 
@@ -37,4 +36,9 @@ class App extends Component {
     };
 };
 
-export default App;
+const mapStateToProps= state => ({
+    state
+})
+const mapDispatchToProps = {
+}
+export default connect(mapStateToProps, mapDispatchToProps)(App)

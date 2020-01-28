@@ -1,5 +1,3 @@
-import { API } from '../../api.js';
-
 export default function(tokenQuery) {
     return async (dispatch, getState) => {
         const tokenSetings = await tokenQuery.split('&').reduce(

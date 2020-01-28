@@ -3,14 +3,15 @@ import { API } from '../../api.js';
 export default function() {
     return async (dispatch, getState) => {
         dispatch({ type: "CHECK_SESSION" });
-        const sessionData = await JSON.parse(localStorage.getItem('vk-auth'));
-
-        console.log(sessionData)
+        const sessionData = await JSON.parse(localStorage.getItem('vk-auth')) || {};
 
         if(sessionData['expires_till'] > Date.now()) {
             dispatch({ type: "SET_TOKEN", payload: sessionData });
+            return true
+        } else {
+            dispatch({ type: "NOT_LOGIN" });
+            localStorage.setItem('vk-auth', '{}');
+            return false
         }
-
-        dispatch({ type: "NOT_LOGIN" });
     }
 }

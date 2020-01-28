@@ -19,7 +19,8 @@ function authReducer(state = initialState, action) {
           ...action.payload
         }
       };
-      ;
+      case "NOT_LOGIN":
+        return initialState;
     default:
       return state;
   }
