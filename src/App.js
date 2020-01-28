@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import {BrowserRouter as Router,
     Switch,
     Route
 } from "react-router-dom";
 import WelcomePage from "./components/WelcomePage.js"
+import AuthController from "./components/AuthController.js"
+import logo from "./logo.jpg"
 
 class App extends Component {
     render() {
@@ -12,16 +13,23 @@ class App extends Component {
             <Router>
                 <div className="App">
                     <header className="header">
-                        <img src={ logo } alt="logo" / >
-                        <section className="header__user user">
-                            <img src='' className="user__ava" alt="" />
-                            <span className="user__name"></span>
-                        </section>
+                        <div className="container">
+                            <div className="header__inner">
+                                <img src={logo} alt="" className="header__logo logo" />
+                                <section className="header__user user">
+                                    <img src='' className="user__ava" alt="" />
+                                    <span className="user__name"></span>
+                                </section>
+                            </div>
+                        </div>
                     </header> 
                     <main className="main">
-                        <Switch>
-                            <Route path="/" exact component={WelcomePage}></Route>
-                        </Switch>
+                        <div className="container">
+                            <Switch>
+                                <Route path="/" exact component={WelcomePage}></Route>
+                                <Route path="/auth" exact component={AuthController}></Route>
+                            </Switch>
+                        </div>
                     </main>
                 </div>
             </Router>

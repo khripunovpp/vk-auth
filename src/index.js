@@ -8,12 +8,13 @@ import auth from './store/reducers/auth.js';
 import user from './store/reducers/user.js';
 import ReduxThunk from 'redux-thunk';
 
+
 const rootReducer = combineReducers({
     auth,
     user
 })
 
-const store = createStore(rootReducer, applyMiddleware(ReduxThunk))
+const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 
 ReactDOM.render( 
     <Provider store={store}>
