@@ -6,6 +6,7 @@ import getFriendsList from "../store/actions/getFriendsList.js";
 import { connect } from 'react-redux';
 import Panel from './Panel.js';
 import Button from './Button.js';
+import FriendsListContainer from './FriendsListContainer.js';
 
 const WelcomePanel = ({loginHandle}) => (
     <Panel>
@@ -14,12 +15,17 @@ const WelcomePanel = ({loginHandle}) => (
     </Panel>  
 )
 
-const ProfilePanel = ({profile}) => (
-    <Panel>
-        <img src={profile['photo_50']} className="ava" alt="" />
-        <h1 className="panel__title">Hi {`${profile['first_name']} ${profile['last_name']}`}, glad to see you</h1>
-    </Panel>  
-)
+const ProfilePanel = (props) => {
+    const userData = props.user.profile;
+    const friendsList = props.user.friends;
+    return (
+        <Panel>
+            <img src={userData['photo_50']} className="ava" alt="" />
+            <h1 className="panel__title">Hi {`${userData['first_name']} ${userData['last_name']}`}, glad to see you</h1>
+            {friendsList.length > 0 && <FriendsListContainer friends={friendsList} />}
+        </Panel>  
+    )
+}
 
 class WelcomePage extends Component {
     handleLogin = (e) => {
@@ -40,7 +46,7 @@ class WelcomePage extends Component {
             <Fragment>
                 {store.auth.login
                     ? store.user.profile
-                        ? <ProfilePanel profile={store.user.profile} /> 
+                        ? <ProfilePanel user={store.user} /> 
                         : <Panel>Loading...</Panel>
                     : <WelcomePanel loginHandle={this.handleLogin} />}
             </Fragment>
@@ -49,6 +55,8 @@ class WelcomePage extends Component {
     componentDidMount() {
         this.props.checkSession().then(()=>{
             this.getProfileData();
+        }).then(()=> {
+            
             this.getFriendsList();
         });
     }

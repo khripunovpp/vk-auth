@@ -1,7 +1,6 @@
 import React, {Component} from "react";
 import setToken from "../store/actions/setToken.js";
 import { connect } from 'react-redux';
-import { Redirect } from "react-router-dom";
 
 class WelcomePage extends Component {
     setToken() {
