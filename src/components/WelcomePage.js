@@ -7,6 +7,10 @@ import { connect } from 'react-redux';
 import Panel from './Panel.js';
 import Button from './Button.js';
 import FriendsListContainer from './FriendsListContainer.js';
+import { 
+    getAuthState,
+    getProfileState
+ } from '../store/selects.js';
 
 const WelcomePanel = ({loginHandle}) => (
     <Panel>
@@ -40,29 +44,25 @@ class WelcomePage extends Component {
     }
     
     render() {
-        const store = this.props.state;
-        console.log(store)
         return(
             <Fragment>
-                {store.auth.login
-                    ? store.user.profile
-                        ? <ProfilePanel user={store.user} /> 
+                {this.props.auth.login
+                    ? this.props.user.profile
+                        ? <ProfilePanel user={this.props.user} /> 
                         : <Panel>Loading...</Panel>
                     : <WelcomePanel loginHandle={this.handleLogin} />}
             </Fragment>
         )
     }
     componentDidMount() {
-        this.props.checkSession().then(()=>{
-            this.getProfileData();
-        }).then(()=> {
-            
-            this.getFriendsList();
-        });
+        this.props.checkSession().then(loginStatus=>{
+            loginStatus && (this.getProfileData(), this.getFriendsList())
+        })
     }
 }
 const mapStateToProps= state => ({
-    state
+    auth: getAuthState(state),
+    user: getProfileState(state)
 })
 const mapDispatchToProps = {
     login,
