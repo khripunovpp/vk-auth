@@ -58,8 +58,8 @@ code {
   transform: translate3d(-50%, -50%, 0);
 }
 
-.user {
-  display: none;
+.main {
+  margin-bottom: 15px;
 }
 
 .panel {

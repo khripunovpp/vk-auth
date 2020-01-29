@@ -25,6 +25,11 @@ class FriendsListContainer extends Component {
                 ...this.state,
                 results
             })
+        } else {
+            this.setState({
+                searchQuery: '',
+                results: []
+            })
         }
     }
     render() {
