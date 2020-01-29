@@ -54,7 +54,7 @@ code {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate3d(-50%,-50%,0);
+  transform: translate3d(-50%, -50%, 0);
 }
 
 .user {
@@ -75,6 +75,8 @@ code {
   font-size: 23px;
   color: #353535;
   margin: 0 0 15px;
+  text-align: center;
+  width: 100%;
 }
 .btn {
   flex: 0 0 auto;
@@ -91,16 +93,75 @@ code {
   font-family: -apple-system, BlinkMacSystemFont, Roboto, Segoe UI, Segoe WP,
     Helvetica Neue, Lucida Grande, Verdana, Tahoma, Arial, sans-serif !important;
   cursor: pointer;
+  margin: 0 auto;
 }
 
 .btn--link {
   background-color: transparent;
-  color: #4986cc
+  color: #4986cc;
 }
 
 .panel .ava {
-  margin-bottom: 15px;
+  margin: 0 auto 15px;
+  border-radius: 50%;
 }
-.friends p {
+.panel .friends {
+  width: 100%;
+  box-shadow: 0 1px 0 0 #d7d8db, 0 0 0 1px #e3e4e8;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.friends__title {
+  background-color: #fafbfc;
   margin: 0;
+  padding: 7px 14px;
+  border-bottom: 1px solid #e7e8ec;
+  font-size: 14px;
+}
+.friends__title strong {
+  color: #5181b8;
+}
+
+.friends__inner {
+  padding: 14px;
+}
+
+.friends__subtitle {
+  font-size: 12px;
+  margin: 0;
+  color: #2a5885;
+}
+
+.field {
+  border-radius: 20px;
+  background-color: #eef5fb;
+  border: none;
+  padding: 5px 10px;
+  width: 100%;
+}
+
+.friends__search {
+  margin-top: 5px;
+  margin-left: -3px;
+  margin-right: -3px;
+}
+
+.friends__resultsSign {
+  margin: 15px 0 0;
+  font-size: 15px;
+  color: #2a5885;
+}
+
+.friends__list {
+  margin: 0;
+  padding: 0;
+  list-style-type: disc;
+  list-style-position: inside;
+}
+
+.friends__item {
+  font-size: 14px;
+  color: #000;
+  color: #2a5885;
+  font-weight: 700;
 }

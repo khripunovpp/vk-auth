@@ -21,7 +21,6 @@ class FriendsListContainer extends Component {
                 const name = friend['first_name'].toLowerCase();
                 return name.includes(query)
             });
-            console.log(results)
             this.setState({
                 ...this.state,
                 results
@@ -31,12 +30,12 @@ class FriendsListContainer extends Component {
     render() {
         return(
             <div className="friends">
-                <p>You have {this.props.friends.length} friends</p>
-                <p>And you may try to find somebody of them</p>
-                <input id="search" type="text" value={this.state.searchQuery} onChange={this.findHandler} />
-                {this.state.results.length > 0
-                    ? <Fragment><p>You find {this.state.results.length} friends</p><FriendsList friends={this.state.results} /></Fragment>
-                    : <p>No results</p>}
+                <p className="friends__title">Friends <strong>{this.props.friends.length}</strong></p>
+                <div className="friends__inner">
+                    <p className="friends__subtitle">Try to find somebody of them</p>
+                    <input className="friends__search field" id="search" type="text" value={this.state.searchQuery} onChange={this.findHandler} />
+                    {this.state.results.length > 0 && <Fragment><p className="friends__resultsSign">You find {this.state.results.length} friends</p><FriendsList friends={this.state.results} /></Fragment>}
+                </div>
             </div>
         )
     }
