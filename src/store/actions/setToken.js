@@ -6,8 +6,15 @@ export default function(tokenQuery) {
       return p;
     }, {});
 
-    const expiresTill = Number(tokenSetings["expires_in"]) + Number(Date.now());
+    const expireIn = Number(tokenSetings["expires_in"]);
+    const expireInMinutes = expireIn / 60;
+
+    const date = new Date();
+    const expiresTill = date.setMinutes(date.getMinutes() + expireInMinutes);
+
     tokenSetings["expires_till"] = expiresTill;
+
+    // тут были проблемы с операциями с timestamp, не уверен что сделал красиво
 
     localStorage.setItem("vk-auth", JSON.stringify(tokenSetings));
     return true;
