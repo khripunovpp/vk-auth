@@ -56,7 +56,10 @@ class WelcomePage extends Component {
     }
     componentDidMount() {
         this.props.checkSession().then(loginStatus=>{
-            loginStatus && (this.getProfileData(), this.getFriendsList())
+            if(loginStatus) {
+                this.getProfileData()
+                this.getFriendsList()
+            }
         })
     }
 }
