@@ -16,6 +16,7 @@ const FriendsListContainer = ({ getFriendsList }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [results, setResults] = useState([]);
   const [friends, setFriends] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const findHandler = e => setSearchQuery(e.target.value);
 
@@ -35,32 +36,41 @@ const FriendsListContainer = ({ getFriendsList }) => {
   };
 
   useEffect(() => {
-    getFriendsList().then(friendsArray => setFriends(friendsArray));
+    getFriendsList().then(friendsArray => {
+      setFriends(friendsArray);
+      setLoading(false);
+    });
   }, []);
 
   useEffect(searchFriends, [searchQuery]);
 
   return (
-    <div className="friends">
-      <p className="friends__title">
-        Friends <strong>{friends.length}</strong>
-      </p>
-      <div className="friends__inner">
-        <p className="friends__subtitle">Try to find somebody of them</p>
-        <input
-          className="friends__search field"
-          id="search"
-          type="text"
-          value={searchQuery}
-          onChange={findHandler}
-        />
-        {results.length > 0 ? (
-          <FriendsResults friends={results} />
-        ) : (
-          searchQuery.length > 0 && <NoResult />
-        )}
-      </div>
-    </div>
+    <Fragment>
+      {loading ? (
+        <p>Fetching friends</p>
+      ) : (
+        <div className="friends">
+          <p className="friends__title">
+            Friends <strong>{friends.length}</strong>
+          </p>
+          <div className="friends__inner">
+            <p className="friends__subtitle">Try to find somebody of them</p>
+            <input
+              className="friends__search field"
+              id="search"
+              type="text"
+              value={searchQuery}
+              onChange={findHandler}
+            />
+            {results.length > 0 ? (
+              <FriendsResults friends={results} />
+            ) : (
+              searchQuery.length > 0 && <NoResult />
+            )}
+          </div>
+        </div>
+      )}
+    </Fragment>
   );
 };
 

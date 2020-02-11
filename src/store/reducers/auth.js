@@ -1,5 +1,4 @@
 const initialState = {
-  loading: false,
   login: false,
   token: {}
 };
@@ -8,12 +7,10 @@ function authReducer(state = initialState, action) {
   switch (action.type) {
     case "LOG_IN":
       return {
-        ...state,
-        loading: true
+        ...state
       };
     case "SET_TOKEN":
       return {
-        loading: false,
         login: true,
         token: {
           ...action.payload
