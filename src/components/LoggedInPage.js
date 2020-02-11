@@ -1,18 +1,15 @@
 import React, { useState, useEffect } from "react";
 import getProfileData from "../store/actions/getProfileData.js";
-import getFriendsList from "../store/actions/getFriendsList.js";
 import { connect } from "react-redux";
 import Panel from "./Panel.js";
 import FriendsListContainer from "./FriendsListContainer.js";
 import { getProfileState } from "../store/selects.js";
 
-const LoggedInPage = ({ getProfileData, getFriendsList, user }) => {
-  const [friends, setFriend] = useState([]);
+const LoggedInPage = ({ getProfileData }) => {
   const [profile, setRprofile] = useState({});
 
   useEffect(() => {
     getProfileData().then(profileData=>setRprofile(profileData));
-    getFriendsList().then(friendsArray=>setFriend(friendsArray));
   }, []);
 
   const name = `${profile["first_name"]} ${profile["last_name"]}`;
@@ -24,7 +21,7 @@ const LoggedInPage = ({ getProfileData, getFriendsList, user }) => {
         Hi {name}, glad to see
         you
       </h1>
-      {friends.length > 0 && <FriendsListContainer friends={friends} />}
+      <FriendsListContainer/>
     </Panel>
   );
 };
@@ -34,7 +31,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  getFriendsList,
   getProfileData
 };
 
