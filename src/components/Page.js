@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import WelcomePage from "./WelcomePage.js";
 import Header from "./Header.js";
 import MainSection from "./MainSection.js";
@@ -8,16 +8,18 @@ import { getAuthState } from "../store/selects.js";
 import checkSession from "../store/actions/checkSession.js";
 
 const Page = ({ checkSession, isLoggedIn }) => {
+  const [pageTpl, setPageTpl] = useState("");
+
   useEffect(() => {
-    checkSession();
-  }, []);
+    checkSession().then(stillLoggedIn => {
+      setPageTpl(stillLoggedIn ? <LoggedInPage /> : <WelcomePage />);
+    });
+  }, [isLoggedIn]);
 
   return (
     <div className="App">
       <Header />
-      <MainSection>
-        {isLoggedIn ? <LoggedInPage /> : <WelcomePage />}
-      </MainSection>
+      <MainSection>{pageTpl}</MainSection>
     </div>
   );
 };
