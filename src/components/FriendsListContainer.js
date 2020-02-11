@@ -1,7 +1,6 @@
 import React, {Component, Fragment} from "react";
 import FriendsList from './FriendsList.js';
 
-
 class FriendsListContainer extends Component {
     state = {
         searchQuery: '',
@@ -16,7 +15,7 @@ class FriendsListContainer extends Component {
     }
     searchFriends = () => {
         const query = this.state.searchQuery.toLowerCase();
-        if(query) {
+        if(query.length) {
             const results = this.props.friends.filter(friend => {
                 const name = friend['first_name'].toLowerCase();
                 return name.includes(query)
@@ -39,7 +38,10 @@ class FriendsListContainer extends Component {
                 <div className="friends__inner">
                     <p className="friends__subtitle">Try to find somebody of them</p>
                     <input className="friends__search field" id="search" type="text" value={this.state.searchQuery} onChange={this.findHandler} />
-                    {this.state.results.length > 0 && <Fragment><p className="friends__resultsSign">You find {this.state.results.length} friends</p><FriendsList friends={this.state.results} /></Fragment>}
+                    {this.state.results.length > 0 
+                        ? <Fragment><p className="friends__resultsSign">You find {this.state.results.length} friends</p><FriendsList friends={this.state.results} /></Fragment> 
+                        : (this.state.searchQuery.length > 0) && <p className="friends__noresultSign">No results</p>
+                    }
                 </div>
             </div>
         )

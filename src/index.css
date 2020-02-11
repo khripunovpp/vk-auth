@@ -153,6 +153,12 @@ code {
   color: #2a5885;
 }
 
+.friends__noresultSign {
+  margin: 15px 0 0;
+  font-size: 15px;
+  color: #999;
+}
+
 .friends__list {
   margin: 0;
   padding: 0;
