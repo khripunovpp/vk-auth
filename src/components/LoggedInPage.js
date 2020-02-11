@@ -9,9 +9,13 @@ import MainSection from "./MainSection.js";
 
 const LoggedInPage = ({ getProfileData }) => {
   const [profile, setRprofile] = useState({});
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getProfileData().then(profileData=>setRprofile(profileData));
+    getProfileData().then(profileData => {
+      setRprofile(profileData);
+      setLoading(false);
+    })
   }, []);
 
   const name = `${profile["first_name"]} ${profile["last_name"]}`;
@@ -20,14 +24,15 @@ const LoggedInPage = ({ getProfileData }) => {
     <Fragment>
       <Header />
       <MainSection>
-        <Panel>
-          <img src={profile["photo_50"]} className="ava" alt="" />
-          <h1 className="panel__title">
-            Hi {name}, glad to see
-            you
-          </h1>
-          <FriendsListContainer/>
-        </Panel>
+        {loading ? (
+          <Panel><h1 className="panel__title">LOADING</h1></Panel>
+        ) : (
+          <Panel>
+            <img src={profile["photo_50"]} className="ava" alt="" />
+            <h1 className="panel__title">Hi {name}, glad to see you</h1>
+            <FriendsListContainer />
+          </Panel>
+        )}
       </MainSection>
     </Fragment>
   );
