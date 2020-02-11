@@ -1,4 +1,4 @@
-import React, { Component, Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import setToken from "../store/actions/setToken.js";
 import { connect } from "react-redux";
 
