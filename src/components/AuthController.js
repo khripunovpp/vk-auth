@@ -1,34 +1,26 @@
-import React, {Component, Fragment} from "react";
+import React, { Component, Fragment, useState, useEffect } from "react";
 import setToken from "../store/actions/setToken.js";
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 
-class WelcomePage extends Component {
-    state = {
-        accessError: false
-    }
-    queryString = this.props.location.hash.slice(1);
-    setToken = () => {
-        this.props.setToken(this.queryString).then(()=>window.location = "./")
-    }
-    setError = () => {
-        this.setState({
-            accessError: true
-        })
-    }
-    render() {
-        return(
-            <Fragment>
-                {this.state.accessError && <h1>Error</h1>}
-            </Fragment>
-        )
-    }
-    componentDidMount() {
-        this.queryString.includes('token') 
-            ? this.setToken()
-            : this.setError();
-    }
+function WelcomePage({ location, setToken }) {
+  const [accessError, setAccessError] = useState(false);
+
+  const queryString = location.hash.slice(1);
+
+  const setTokenToStore = (q) => {
+    setToken(q).then(() => (window.location = "./"));
+  };
+  
+  useEffect(() => {
+    queryString.includes("token")
+      ? setTokenToStore(queryString)
+      : setAccessError(true);
+  });
+
+  return <Fragment>{accessError && <h1>Error</h1>}</Fragment>;
 }
+
 const mapDispatchToProps = {
-    setToken
-}
-export default connect(null, mapDispatchToProps)(WelcomePage)
+  setToken
+};
+export default connect(null, mapDispatchToProps)(WelcomePage);
