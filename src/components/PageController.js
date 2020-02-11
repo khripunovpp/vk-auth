@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import WelcomePage from "./WelcomePage.js";
-import Header from "./Header.js";
-import MainSection from "./MainSection.js";
 import LoggedInPage from "./LoggedInPage.js";
 import { connect } from "react-redux";
 import { getAuthState } from "../store/selects.js";
@@ -18,8 +16,7 @@ const Page = ({ checkSession, isLoggedIn }) => {
 
   return (
     <div className="App">
-      <Header />
-      <MainSection>{pageTpl}</MainSection>
+      {pageTpl}
     </div>
   );
 };
