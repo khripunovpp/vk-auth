@@ -1,5 +1,5 @@
 export default function() {
-  return async (dispatch, getState) => {
+  return async (dispatch) => {
     dispatch({ type: "CHECK_SESSION" });
     const sessionData =
       (await JSON.parse(localStorage.getItem("vk-auth"))) || {};

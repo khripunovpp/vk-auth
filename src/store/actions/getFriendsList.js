@@ -5,14 +5,15 @@ export default function() {
     const state = getState();
     const token = state.auth.token["access_token"];
     dispatch({ type: "LOADING_USER_DATA" });
+    
     return API.get({
       method: "friends.get",
       token: token
     })
       .then(response => {
-        if (typeof response.error !== "undefined") {
-          dispatch({ type: "ERROR_LOAD_FRIENDS_LIST" });
-        } else {
+        if (typeof response.error !== "undefined")
+          throw new Error(response.error['error_msg']);
+        else {
           const friendsIDs = response.response.items.join(",");
           const friendsResponse = API.get({
             method: "users.get",
@@ -28,6 +29,10 @@ export default function() {
       .then(({ response: friendsArray }) => {
         dispatch({ type: "SUCCESS_LOAD_FRIENDS_LIST", payload: friendsArray });
         return friendsArray;
+      })
+      .catch(err => {
+        dispatch({ type: "ERROR_LOAD_FRIENDS_LIST", payload: err });
+        return err;
       });
   };
 }

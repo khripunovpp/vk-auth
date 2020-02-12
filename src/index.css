@@ -170,3 +170,19 @@ code {
   color: #2a5885;
   font-weight: 700;
 }
+
+.alert {
+  margin: 0;
+  padding: 5px 10px;
+  width: 100%;
+  background-color: #ffe4db;
+  border: 1px solid #ff5722;
+  color: #ff5722;
+  border-radius: 5px;
+}
+
+.alert.error {
+  border-color: red;
+  background-color: #ffeaea;
+  color:red;
+}

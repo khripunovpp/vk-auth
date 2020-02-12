@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { connect } from "react-redux";
 import FriendsList from "./FriendsList.js";
+import Alert from "./Alert.js";
 import getFriendsList from "../store/actions/getFriendsList.js";
 
 const NoResult = () => <p className="friends__noresultSign">No results</p>;
@@ -17,6 +18,7 @@ const FriendsListContainer = ({ getFriendsList }) => {
   const [results, setResults] = useState([]);
   const [friends, setFriends] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   const findHandler = e => setSearchQuery(e.target.value);
 
@@ -36,8 +38,8 @@ const FriendsListContainer = ({ getFriendsList }) => {
   };
 
   useEffect(() => {
-    getFriendsList().then(friendsArray => {
-      setFriends(friendsArray);
+    getFriendsList().then(response => {
+      Array.isArray(response) ? setFriends(response) : setError(response);
       setLoading(false);
     });
   }, []);
@@ -46,9 +48,11 @@ const FriendsListContainer = ({ getFriendsList }) => {
 
   return (
     <Fragment>
-      {loading ? (
-        <p>Fetching friends</p>
-      ) : (
+      {error ? (
+        <Alert type='error'>Fetching failed</Alert>
+      ) : loading ? (
+        <Alert>Fetching friends...</Alert>
+      ) : friends.length > 0 ? (
         <div className="friends">
           <p className="friends__title">
             Friends <strong>{friends.length}</strong>
@@ -69,6 +73,8 @@ const FriendsListContainer = ({ getFriendsList }) => {
             )}
           </div>
         </div>
+      ) : (
+        <Alert>Oh you are so lonely...</Alert>
       )}
     </Fragment>
   );

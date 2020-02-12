@@ -1,6 +1,7 @@
 const initialState = {
   friends: [],
-  profile: {}
+  profile: {},
+  errors: ''
 };
 
 function authReducer(state = initialState, action) {
@@ -13,7 +14,8 @@ function authReducer(state = initialState, action) {
     case "ERROR_LOAD_FRIENDS_LIST":
       return {
         ...state,
-        friends: []
+        friends: [],
+        errors: action.payload
       };
     case "ERROR_LOAD_USER_DATA":
       return state;
