@@ -1,24 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo } from "react";
 import WelcomePage from "./WelcomePage.js";
 import LoggedInPage from "./LoggedInPage.js";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import { getAuthState } from "../store/selects.js";
 import checkSession from "../store/actions/checkSession.js";
 
-const Page = ({ checkSession, isLoggedIn }) => {
-  const [pageTpl, setPageTpl] = useState("");
+const Page = ({ isLoggedIn }) => {
+  const dispatch = useDispatch();
+
+  const pageTpl = useMemo(
+    () => (isLoggedIn ? <LoggedInPage /> : <WelcomePage />),
+    [isLoggedIn]
+  );
 
   useEffect(() => {
-    checkSession().then(stillLoggedIn => {
-      setPageTpl(stillLoggedIn ? <LoggedInPage /> : <WelcomePage />);
-    });
+    dispatch(checkSession());
   }, [isLoggedIn]);
 
-  return (
-    <div className="App">
-      {pageTpl}
-    </div>
-  );
+  return <div className="App">{pageTpl}</div>;
 };
 
 const mapStateToProps = state => {
@@ -26,8 +25,4 @@ const mapStateToProps = state => {
   return { isLoggedIn: login };
 };
 
-const mapDispatchToProps = {
-  checkSession
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Page);
+export default connect(mapStateToProps)(Page);
