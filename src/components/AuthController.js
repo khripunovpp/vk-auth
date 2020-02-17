@@ -1,21 +1,29 @@
 import React, { Fragment, useState, useEffect } from "react";
 import setToken from "../store/actions/setToken.js";
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 import logout from "../store/actions/logout.js";
 
 const redirectHome = () => (window.location = "./");
 
-function WelcomePage({ location, setToken, logout }) {
+function WelcomePage({ location }) {
   const [accessError, setAccessError] = useState(false);
 
   const queryString = location.hash.slice(1);
 
+  const dispatch = useDispatch();
+
   const setTokenToStore = q => {
-    setToken(q).then(() => redirectHome());
+    dispatch(() => {
+      setToken(q).then(() => redirectHome());
+    });
   };
 
   useEffect(() => {
-    accessError && logout().then(() => redirectHome());
+    if (accessError) {
+      dispatch(()=>{
+        logout().then(() => redirectHome());
+      })
+    }
   }, [accessError]);
 
   useEffect(() => {
@@ -27,8 +35,4 @@ function WelcomePage({ location, setToken, logout }) {
   return <Fragment>{accessError && <h1>Error</h1>}</Fragment>;
 }
 
-const mapDispatchToProps = {
-  setToken,
-  logout
-};
-export default connect(null, mapDispatchToProps)(WelcomePage);
+export default WelcomePage;
