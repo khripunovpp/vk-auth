@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect, useCallback } from "react";
 import setToken from "../store/actions/setToken.js";
 import { useDispatch } from "react-redux";
 import logout from "../store/actions/logout.js";
@@ -13,16 +13,12 @@ function WelcomePage({ location }) {
   const dispatch = useDispatch();
 
   const setTokenToStore = q => {
-    dispatch(() => {
-      setToken(q).then(() => redirectHome());
-    });
+    dispatch(setToken(q)).then(() => redirectHome());
   };
 
   useEffect(() => {
     if (accessError) {
-      dispatch(()=>{
-        logout().then(() => redirectHome());
-      })
+      dispatch(logout).then(() => redirectHome());
     }
   }, [accessError]);
 
