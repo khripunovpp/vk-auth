@@ -1,21 +1,22 @@
 import React, { Fragment, useState, useEffect } from "react";
 import getProfileData from "../store/actions/getProfileData.js";
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 import Panel from "./Panel.js";
 import FriendsListContainer from "./FriendsListContainer.js";
-import { getProfileState } from "../store/selects.js";
 import Header from "./Header.js";
 import MainSection from "./MainSection.js";
 
 import Logout from "./Logout.js";
 
-const LoggedInPage = ({ getProfileData }) => {
+const LoggedInPage = () => {
+  const dispatch = useDispatch();
+
   const [profile, setRprofile] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    getProfileData().then(response => {
+    dispatch(getProfileData()).then(response => {
       typeof response !== "string" ? setRprofile(response) : setError(response);
       setLoading(false);
     });
@@ -43,12 +44,4 @@ const LoggedInPage = ({ getProfileData }) => {
   );
 };
 
-const mapStateToProps = state => ({
-  user: getProfileState(state)
-});
-
-const mapDispatchToProps = {
-  getProfileData
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(LoggedInPage);
+export default LoggedInPage;
