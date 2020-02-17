@@ -7,6 +7,8 @@ import { getProfileState } from "../store/selects.js";
 import Header from "./Header.js";
 import MainSection from "./MainSection.js";
 
+import Logout from "./Logout.js";
+
 const LoggedInPage = ({ getProfileData }) => {
   const [profile, setRprofile] = useState({});
   const [loading, setLoading] = useState(true);
@@ -23,7 +25,7 @@ const LoggedInPage = ({ getProfileData }) => {
 
   return (
     <Fragment>
-      <Header />
+      <Header right={<Logout />} />
       <MainSection>
         {error ? null : loading ? (
           <Panel>

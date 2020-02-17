@@ -10,7 +10,7 @@ const WelcomePage = () => {
   const dispatch = useDispatch();
   return (
     <Fragment>
-      <Header />
+      <Header/>
       <MainSection>
         <Panel>
           <h1 className="panel__title">Hi there, signin to continue</h1>

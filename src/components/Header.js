@@ -1,23 +1,21 @@
-import React from 'react';
+import React, { useMemo } from "react";
 import logo from "../logo.jpg";
-import { connect } from 'react-redux';
-import { getAuthState } from '../store/selects.js';
-import Logout from "./Logout.js"
 
-const header = ({auth}) => {
-    return(
-        <header className="header">
-            <div className="container">
-                <div className="header__inner">
-                    <img src={logo} alt="" className="header__logo logo" />
-                    {auth.login && <Logout />}
-                </div>
-            </div>
-        </header> 
-    )
-}
+const Header = ({ left = null, right = null }) => {
+  const leftTpl = useMemo(() => left, [left]);
+  const rightTpl = useMemo(() => right, [right]);
 
-const mapStateToProps= state => ({
-    auth: getAuthState(state)
-})
-export default connect(mapStateToProps)(header)
+  return (
+    <header className="header">
+      <div className="container">
+        <div className="header__inner">
+          {leftTpl}
+          {<img src={logo} alt="" className="header__logo logo" />}
+          {rightTpl}
+        </div>
+      </div>
+    </header>
+  );
+};
+
+export default Header;
