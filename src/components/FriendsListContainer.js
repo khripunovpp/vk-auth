@@ -1,5 +1,5 @@
-import React, { Fragment, useState, useEffect } from "react";
-import { connect } from "react-redux";
+import React, { Fragment, useState, useEffect, useMemo } from "react";
+import { useDispatch } from "react-redux";
 import FriendsList from "./FriendsList.js";
 import Alert from "./Alert.js";
 import getFriendsList from "../store/actions/getFriendsList.js";
@@ -13,7 +13,9 @@ const FriendsResults = ({ friends }) => (
   </Fragment>
 );
 
-const FriendsListContainer = ({ getFriendsList }) => {
+const FriendsListContainer = () => {
+  const dispatch = useDispatch();
+
   const [searchQuery, setSearchQuery] = useState("");
   const [results, setResults] = useState([]);
   const [friends, setFriends] = useState([]);
@@ -37,8 +39,17 @@ const FriendsListContainer = ({ getFriendsList }) => {
     }
   };
 
+  const resultsTpl = useMemo(() => {
+    console.log('Длина',results.length)
+    return results.length > 0 ? (
+      <FriendsResults friends={results} />
+    ) : (
+      searchQuery.length > 0 && <NoResult />
+    );
+  }, [results]);
+
   useEffect(() => {
-    getFriendsList().then(response => {
+    dispatch(getFriendsList()).then(response => {
       Array.isArray(response) ? setFriends(response) : setError(response);
       setLoading(false);
     });
@@ -49,7 +60,7 @@ const FriendsListContainer = ({ getFriendsList }) => {
   return (
     <Fragment>
       {error ? (
-        <Alert type='error'>Fetching failed</Alert>
+        <Alert type="error">Fetching failed</Alert>
       ) : loading ? (
         <Alert>Fetching friends...</Alert>
       ) : friends.length > 0 ? (
@@ -66,11 +77,7 @@ const FriendsListContainer = ({ getFriendsList }) => {
               value={searchQuery}
               onChange={findHandler}
             />
-            {results.length > 0 ? (
-              <FriendsResults friends={results} />
-            ) : (
-              searchQuery.length > 0 && <NoResult />
-            )}
+            {resultsTpl}
           </div>
         </div>
       ) : (
@@ -80,8 +87,4 @@ const FriendsListContainer = ({ getFriendsList }) => {
   );
 };
 
-const mapDispatchToProps = {
-  getFriendsList
-};
-
-export default connect(null, mapDispatchToProps)(FriendsListContainer);
+export default FriendsListContainer;
