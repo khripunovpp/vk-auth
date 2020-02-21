@@ -9,7 +9,19 @@ const NoResult = () => <p className="friends__noresultSign">No results</p>;
 const FriendsResults = ({ friends }) => (
   <Fragment>
     <p className="friends__resultsSign">You find {friends.length} friends</p>
-    <FriendsList friends={friends} />
+    <FriendsList wrapper={<ul className="friends__list" />} friends={friends}>
+      {friends => {
+        return (
+          <ol className="friends__list">
+            {friends.map(friend => (
+              <li key={friend.id} className="friends__item">
+                {friend["first_name"]} {friend["last_name"]}
+              </li>
+            ))}
+          </ol>
+        );
+      }}
+    </FriendsList>
   </Fragment>
 );
 
@@ -40,7 +52,6 @@ const FriendsListContainer = () => {
   };
 
   const resultsTpl = useMemo(() => {
-    console.log('Длина',results.length)
     return results.length > 0 ? (
       <FriendsResults friends={results} />
     ) : (
