@@ -6,25 +6,6 @@ import getFriendsList from "../store/actions/getFriendsList.js";
 
 const NoResult = () => <p className="friends__noresultSign">No results</p>;
 
-const FriendsResults = ({ friends }) => (
-  <Fragment>
-    <p className="friends__resultsSign">You find {friends.length} friends</p>
-    <FriendsList wrapper={<ul className="friends__list" />} friends={friends}>
-      {friends => {
-        return (
-          <ol className="friends__list">
-            {friends.map(friend => (
-              <li key={friend.id} className="friends__item">
-                {friend["first_name"]} {friend["last_name"]}
-              </li>
-            ))}
-          </ol>
-        );
-      }}
-    </FriendsList>
-  </Fragment>
-);
-
 const FriendsListContainer = () => {
   const dispatch = useDispatch();
 
@@ -39,12 +20,12 @@ const FriendsListContainer = () => {
   const searchFriends = () => {
     const query = searchQuery.toLowerCase();
     if (query.length) {
-      const results = friends.filter(friend => {
-        const name = friend["first_name"].toLowerCase();
-        return name.includes(query);
-      });
-
-      setResults(results);
+      setResults(
+        friends.filter(friend => {
+          const name = friend["first_name"].toLowerCase();
+          return name.includes(query);
+        })
+      );
     } else {
       setResults([]);
       setSearchQuery("");
@@ -52,8 +33,26 @@ const FriendsListContainer = () => {
   };
 
   const resultsTpl = useMemo(() => {
+    console.log(1)
     return results.length > 0 ? (
-      <FriendsResults friends={results} />
+      <FriendsList wrapper={<ul className="friends__list" />} friends={results}>
+        {friends => {
+          return (
+            <Fragment>
+              <p className="friends__resultsSign">
+                You find {friends.length} friends
+              </p>
+              <ol className="friends__list">
+                {friends.map(friend => (
+                  <li key={friend.id} className="friends__item">
+                    {friend["first_name"]} {friend["last_name"]}
+                  </li>
+                ))}
+              </ol>
+            </Fragment>
+          );
+        }}
+      </FriendsList>
     ) : (
       searchQuery.length > 0 && <NoResult />
     );
